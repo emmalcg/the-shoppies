@@ -1,6 +1,7 @@
 import {useContext, useEffect, useState} from 'react';
 import {SearchContext} from '../context/SearchContext'
 import styled from 'styled-components'
+import Banner from '../components/Banner'
 import Button from '../components/Button'
 
 const MovieItem = styled.li`
@@ -69,6 +70,8 @@ export default function ResultsContainer ({movies}) {
 
     
     return (
+    <>
+        {nominatedMovies.length === 5 && <Banner/>}
         <StyledSection>
             <ListContainer>
                 {
@@ -117,5 +120,6 @@ export default function ResultsContainer ({movies}) {
             </ListContainer>
 
         </StyledSection>
+    </>
     )
 }
