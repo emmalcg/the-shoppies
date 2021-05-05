@@ -50,11 +50,24 @@ export default function ResultsContainer ({movies}) {
     },[searchValue])
 
     const nominateMovie = (e) => {
-        console.log(e.target.value)
-        setNominatedMovies(...nominatedMovies, e.target.value)
+
+        const movieTitle = e.target.parentNode.children[0].innerText
+        const movieYear = e.target.parentNode.children[1].innerText
+
+        // const clickedMovie = e.target.value
+        // console.log(clickedMovie)
+        setNominatedMovies([...nominatedMovies, {Title: movieTitle, Year: movieYear}])
     }
+
+    console.log(nominatedMovies)
+
+    const removeMovie = (e) => {
+        const movieTitle = e.target.parentNode.children[0].innerText
+
+        setNominatedMovies(nominatedMovies.filter(movie => movie.Title !== movieTitle))
+    }
+
     
-    console.log(searchedMovies)
     return (
         <StyledSection>
             <ListContainer>
@@ -66,14 +79,15 @@ export default function ResultsContainer ({movies}) {
                     <ul>
                         {
                             searchedMovies.map(movie => {
+                                // console.log(movie)
                                 return (
                                     <MovieItem key ={movie.imdbID}>
                                         <MovieTitle>{movie.Title}</MovieTitle>
                                         <Year>{`(${movie.Year})`}</Year>
                                         <Button 
                                             text='Nominate'
-                                            value={movie.Title}
                                             onClick={nominateMovie}
+                                            disabled={nominatedMovies.some(movieObj => (movieObj.Title.includes(movie.Title))) || nominatedMovies.length >= 5}
                                         />
                                     </MovieItem>
                                 )
@@ -86,20 +100,20 @@ export default function ResultsContainer ({movies}) {
             </ListContainer>
             <ListContainer>
                 <StyledH2>Nominations</StyledH2>
-                {/* {
+                {
                     nominatedMovies.map(movie => {
                         return (
-                            <MovieItem key ={`${movie.imdbID}nom`}>
+                            <MovieItem key ={`${movie.Title}nom`}>
                                 <MovieTitle>{movie.Title}</MovieTitle>
-                                <Year>{`(${movie.Year})`}</Year>
+                                <Year>{movie.Year}</Year>
                                 <Button 
                                     text='Remove'
-                                    // OnClick={nominateMovie}
+                                    onClick={removeMovie}
                                 />
                             </MovieItem>
                         )
                     })
-                } */}
+                }
             </ListContainer>
 
         </StyledSection>
