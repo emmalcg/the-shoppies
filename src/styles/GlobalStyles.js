@@ -10,34 +10,31 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; border: 0; padding: 0; white-space: nowrap; clip-path: inset(100%); clip: rect(0 0 0 0); overflow: hidden;}
 
 :root {
-    --main-text-color:  #005da9;
-    --background-color: #F5FFAC;
-    --lightened-background: #fbffd4;
-    --light-secondary-color: #ffedb3;
-    --dark-secondary-color:  #ffdc6b;
-    --bright-contrast: #008cff;
-    --gradient: linear-gradient(67deg, rgba(141,227,247,1) 0%, rgba(215,255,190,1) 30%, rgba(181,250,255,1) 68%, rgba(243, 255, 192, 1) 100%);
+    --main-text-color:  #202030;
+    --contrast-color: #D4FAFF;
+    --lightest-color: #FEFFEB;
+    --bright-color: #F8FE85;
+    --dark-color:  #0A5012;
+    --background-color: #138D1C;
+    --light-color: #FBFEC2;
+    --coral: #FF9980;
+    --light-coral: #FFC2B3;
 }
 
 html {
     font-size: 62.5%;
-    
-}
+    font-family: proxima-nova, sans-serif;
+    font-weight: 300;
 
-a {
-    text-decoration: none;
+    background-color: var(--background-color);
 }
-
 
 .wrapper {
     margin: 0 auto;
     width: 90%;
     height: 100%;
     max-width: 1400px;
-    // display: flex;
-    // flex-direction: column;
 }
-
 
 @media (max-width: 550px) {
     .wrapper{
