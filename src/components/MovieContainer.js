@@ -89,7 +89,7 @@ export default function ResultsContainer ({movies}) {
 
     useEffect(() => {
         
-        fetch(`http://www.omdbapi.com/?s=${searchValue}&apikey=e5f2ee09&`)
+        fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=e5f2ee09&`)
         .then(res => res.json())
         .then(jsonResult => {
             if (jsonResult.Response === 'True') {
