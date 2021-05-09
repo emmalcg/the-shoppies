@@ -4,15 +4,19 @@ import styled from 'styled-components'
 import Banner from '../components/Banner'
 import Button from '../components/Button'
 
-const StyledSection = styled.section`
+const StyledSection = styled.main`
     margin: 2rem 0;
 
-    margin-top: 5rem;
+    margin-top: 7rem;
     display: flex;
     justify-content: space-between;
 
     @media(max-width:640px) {
         flex-wrap: wrap;
+    }
+
+    &.showBanner {
+        margin-top: 2rem;
     }
 `
 const MovieItem = styled.li`
@@ -47,6 +51,7 @@ const StyledH2 = styled.h2`
     font-size: 2rem;
     font-weight: 400;
     color: var(--dark-color);
+    padding-bottom: 0.5rem;
 `
 
 const MovieTitle = styled.p`
@@ -71,21 +76,27 @@ const Year = styled.span`
     color: var(--dark-color);
 
 `
-
 const NominationHeader = styled.div`
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.5rem;
 `
 const NominationCount = styled.p`
     font-size: 1.8rem;
     color: var(--dark-color);
     font-weight: 400;
 `
+
+const FillerText = styled.p`
+    margin-top: 2rem;
+    font-size: 1.8rem;
+    
+`
+
 export default function ResultsContainer ({movies}) {
     const [searchValue] = useContext(SearchContext);
     const [searchedMovies, setSearchedMovies] = useState([]);
     const [nominatedMovies, setNominatedMovies] = useState([]);
+    const [nominationsFull, setNominationsFull] = useState(false);
 
     useEffect(() => {
         
@@ -96,8 +107,18 @@ export default function ResultsContainer ({movies}) {
             setSearchedMovies(jsonResult.Search);
             } 
         })
-    
+        .catch((err) => {
+            alert(`Sorry, we can't find movies right now. Please try again later.`)
+        })
     },[searchValue])
+
+    useEffect(() => {
+        if(nominatedMovies.length >= 5) {
+            setNominationsFull(true)
+        } else {
+            setNominationsFull(false)
+        }
+    },[nominatedMovies.length])
 
     const nominateMovie = (e) => {
         const movieId = e.target.parentNode.id
@@ -109,13 +130,11 @@ export default function ResultsContainer ({movies}) {
         const movieId = e.target.parentNode.id
         setNominatedMovies(nominatedMovies.filter(movie => movie.Id !== movieId))
     }
-
-
     
     return (
     <>
-        {nominatedMovies.length === 5 && <Banner/>}
-        <StyledSection>
+        {nominationsFull && <Banner/>}
+        <StyledSection className={nominationsFull && "showBanner"}>
             
             <ListContainer>
                 {
@@ -135,7 +154,7 @@ export default function ResultsContainer ({movies}) {
                                         <Button 
                                             text='Nominate'
                                             onClick={nominateMovie}
-                                            disabled={nominatedMovies.some(movieObj => (movieObj.Id === movie.imdbID)) || nominatedMovies.length >= 5}
+                                            disabled={nominatedMovies.some(movieObj => (movieObj.Id === movie.imdbID)) || nominationsFull}
                                         />
                                     </MovieItem>
                                 )
@@ -143,17 +162,29 @@ export default function ResultsContainer ({movies}) {
                         }
                     </ul>
                     </>
-                    : <StyledH2>Search Results</StyledH2>
+                    : <>
+                        <StyledH2>Results</StyledH2>
+                        <FillerText>
+                            Search to nominate your favourite movies!
+                        </FillerText>
+                        </>
                 }
             </ListContainer>
             <ListContainer>
                 <NominationHeader>
                     <StyledH2>Nominations</StyledH2>
                     {nominatedMovies.length > 0 && 
-                        <NominationCount>{`${nominatedMovies.length}/5`}</NominationCount>
+                        <NominationCount>
+                            {`${nominatedMovies.length}/5`}
+                        </NominationCount>
                     }
                 </NominationHeader>
+                    {nominatedMovies.length === 0 &&
+                        <FillerText>
+                            No nominations selected
+                        </FillerText>
 
+                    }
                 {
                     nominatedMovies.map(movie => {
                         return (

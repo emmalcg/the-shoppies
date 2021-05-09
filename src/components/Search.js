@@ -6,7 +6,7 @@ import styled from 'styled-components'
 const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
-    padding: 2rem 2rem 2.5rem; 
+    padding: 2rem 2rem 1rem; 
     position: relative;
 `
 const StyledLabel = styled.label`
@@ -36,7 +36,7 @@ const Symbol = styled(FiSearch)`
     transform: scale(2);
     z-index: 1;
     position: absolute;
-    bottom: 3.7rem;
+    bottom: 2.3rem;
     left: 3rem;
 `
 export default function Search() {
